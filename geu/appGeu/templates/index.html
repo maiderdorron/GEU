@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block titulo %}   
+{% load i18n %}
+<form action= "{% url 'set_language' %}" method="post"> {% csrf_token %}
+        <input name="next" type="hidden" value= "{{redirect_to }}" />
+        <select name = "language">
+            {% get_current_language as LANGUAGE_CODE %}
+            {% get_available_languages as LANGUAGES %}
+            {% get_language_info_list for LANGUAGES as languages%}
+            {% for language in languages%}
+                <option value="{{language.code}}" {% if language.code == LANGUAGE_CODE %} selected {%endif%}>
+                    {{ language.name_local }} ({{ language.code }})
+                </option>
+            {% endfor%}
+        </select>
+        <input type="submit" value="Change" />
+    </form>
+<a class="logo negro" href="/">g e u !</a>
+        
+      
+        
+        <a class="menu-nav-icon" data-menu="#main-menu" href="#"><i class="ion-navicon"></i></a>
+        
+        <ul class="main-menu" id="main-menu">
+            <li><a class="negro" href="/">{% trans "Inicio"%}</a></li>
+            <li><a class="negro" href="/bolsas">{% trans "Bolsas"%}</a></li>
+            <li><a class="negro" href="/textiles">{% trans "Textil"%}</a></li>
+            <li><a class="negro" href="/complementos">{% trans "Complementos"%}</a></li>
+            
+            
+            
+        </ul>
+        
+        <div class="clearfix"></div>
+{% endblock %}
+
+{% block contenido %}
+{% load i18n %}
+  <div class="img-bg bg-1 bg-layer-4"></div>
+        <div class="container-fluid h-100 mt-xs-50">
+        
+            <div class="row h-100">
+                <div class="col-md-1"></div>
+                <div class="col-sm-12 col-md-5 h-100 h-sm-50">
+                    <div class="dplay-tbl">
+                        <div class="dplay-tbl-cell color-white mtb-30">
+                            <div class="mx-w-400x">
+                                <h1 class="mt-20 mb-30"><b>{% trans "GEU"%}</b></h1>
+                            </div><!-- mx-w-200x -->
+                        </div><!-- dplay-tbl-cell -->
+                    </div><!-- dplay-tbl -->
+                </div><!-- col-sm-6 -->
+                
+                <div class="col-sm-12 col-md-6 h-sm-50 oflow-hidden swiper-area pos-relative">          
+    
+                    <div class="abs-blr pos-sm-static">
+                        <div class="row pos-relative mt-50 all-scroll">
+                        
+                            <div class="swiper-scrollbar resp"></div>
+                            <div class="col-md-10">
+                                
+                                <h5 class="mb-50 color-white"><b> {% trans "NOVEDADES" %}</b></h5>
+                                
+                                <div class="swiper-container oflow-visible" data-slide-effect="slide" data-autoheight="false" 
+                                    data-swiper-speed="500" data-swiper-margin="25" data-swiper-slides-per-view="2"
+                                    data-swiper-breakpoints="true" data-scrollbar="true" data-swiper-loop="true"
+                                    data-swpr-responsive="[1, 2, 1, 2]">
+                                    
+                                    <div class="swiper-wrapper">
+                                     {% for l in ultimosProductos %}
+                                        <div class="swiper-slide">
+                                            <div class="bg-white">                                           
+                                                <div class="plr-25 ptb-15">
+                                                    <h4 class="mtb-10">
+                                                        <a href="{% url 'detailBolsas' l.id %}">{{l.nombre}}</a></h4>
+                                                        {% load static %}
+                                                          {% with ''|add:l.foto.name as image_path %}
+                                                          <img class="portada" alt="{{ l.nombre.name }}" src="{% static image_path %}"/></a>
+                                                        {% endwith %}  
+                                                </div><!-- hot-news -->
+                                            </div><!-- hot-news -->
+                                        </div><!-- swiper-slide -->
+                                         {% endfor %}
+                                       
+                                        
+                                    </div><!-- swiper-wrapper -->
+                                </div><!-- swiper-container -->
+                                
+                            </div><!-- col-sm-6 -->
+                        </div><!-- all-scroll -->
+                    </div><!-- row -->
+                </div><!-- col-sm-6 -->
+                
+            </div><!-- row -->
+        </div><!-- container -->
+
+{% endblock %}
